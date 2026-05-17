@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,11 +16,15 @@ public class Restaurante {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(nullable = false)
 	private String nome;
+	
+	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 
 	@ManyToOne
-	@JoinColumn(name = "cozinha_id")
+	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
 	
