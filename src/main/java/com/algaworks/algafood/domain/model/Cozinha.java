@@ -5,14 +5,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+//@JsonRootName("gastronomia") //altera o nome da classe na representação
 @Entity
 public class Cozinha {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	//@JsonIgnore não mostra a propriedade na representação
+	//@JsonProperty("titulo") altera o nome da propriedade na representação
 	@Column(nullable = false)
 	private String nome;
 	
