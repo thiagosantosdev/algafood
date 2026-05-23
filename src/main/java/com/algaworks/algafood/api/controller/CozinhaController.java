@@ -27,16 +27,35 @@ public class CozinhaController {
 		return cozinhaRepository.listar();
 	}
 	
-	@GetMapping("/{cozinhaId}")
+	/* @GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
 		
 		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
 		return ResponseEntity.status(HttpStatus.OK).body(cozinha);
 		//return ResponseEntity.ok(); ATALHO DA LINHA ACIMA
 		//return ResponseEntity.status(HttpStatus.OK).build(); RETORNA SEM O CORPO  //.body(cozinha);
+		} */
+	@GetMapping("/{cozinhaId}")
+	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
 		
+		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
 		
-	}
+		if(cozinha != null) {
+			return ResponseEntity.ok(cozinha);
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		//return ResponseEntity.notFound().build(); ATALHO LINHA ACIMA
+		
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
