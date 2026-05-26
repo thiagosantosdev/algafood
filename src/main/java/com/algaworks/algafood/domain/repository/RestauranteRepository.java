@@ -7,6 +7,8 @@ public interface RestauranteRepository {
 	
 
 	Restaurante buscar(Long id);
+	Restaurante salvar(Restaurante restaurante);
+
 
 	
 }
