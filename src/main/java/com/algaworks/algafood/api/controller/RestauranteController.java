@@ -75,29 +75,4 @@ public class RestauranteController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
-/*
-@GetMapping(value = "/buscarProduto/{id_produto}")
-	public ResponseEntity<Produto> buscarProduto(@PathVariable("id_produto") Long id_produto)
-			throws ExceptionMentoriaJava {
-
-		Produto produto = produtoRepository.findById(id_produto).orElse(null);
-
-		if (produto == null) {
-			throw new ExceptionMentoriaJava("Não encontrou produto com código: " + id_produto);
-		}
-
-		return new ResponseEntity<Produto>(produto, HttpStatus.OK);
-	}
-*/
