@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,9 @@ public class CadastroRestauranteService {
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
 	
-	public Restaurante buscar (Long restauranteId) {
+	public Optional<Restaurante> buscar (Long restauranteId) {
 		
-		return restauranteRepository.buscar(restauranteId);
+		return restauranteRepository.findById(restauranteId);
 	}
 	
 	public Restaurante salvar(Restaurante restaurante) {
