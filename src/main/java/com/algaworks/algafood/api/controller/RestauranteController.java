@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,12 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteRepository restauranteRepository;
+	
+	@GetMapping("/restaurantes/por-nome")
+	public List<Restaurante> restaurantePorNomes(
+		String nome, Long cozinhaId){
+			return restauranteRepository.consultaPorNome(nome, cozinhaId);
+	}
 	
 	@GetMapping("/restaurante/{id}")
 	public ResponseEntity<Restaurante> buscar(@PathVariable("id") Long id){
