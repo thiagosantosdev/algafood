@@ -1,10 +1,16 @@
 package com.algaworks.algafood.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 //@JsonRootName("gastronomia") //altera o nome da classe na representação
 @Entity
 public class Cozinha {
@@ -17,6 +23,9 @@ public class Cozinha {
 	@Column(nullable = false)
 	private String nome;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "cozinha")
+	private List<Restaurante> restaurantes = new ArrayList<>();
 	
 	public Long getId() {
 		return id;
@@ -29,6 +38,13 @@ public class Cozinha {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Restaurante> getRestaurantes() {
+		return restaurantes;
+	}
+	public void setRestaurantes(List<Restaurante> restaurantes) {
+		this.restaurantes = restaurantes;
 	}
 	
 	
