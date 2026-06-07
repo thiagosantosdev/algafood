@@ -14,6 +14,12 @@ insert into cidade(id, nome, estado_id) values (1, 'Campinas', 2);
 insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao) values (1, 'Restaurante do João', 10, 1, 1, '21211-00', 'Rua do Abacate', '100', 'Centro', utc_timestamp, utc_timestamp);
 insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao) values (2, 'Restaurante da Maria', 10, 2, 1, '21211-00', 'Rua do Abacate', '100', 'Centro', utc_timestamp, utc_timestamp);
 
+insert into produto(id, nome, descricao, preco, ativo, restaurante_id) values (1, 'Arroz', 'descricao', 10.2, true, 1);
+insert into produto(id, nome, descricao, preco, ativo, restaurante_id) values (2, 'Feijão', 'descricao', 10.2, true, 1);
+insert into produto(id, nome, descricao, preco, ativo, restaurante_id) values (3, 'Açucar', 'descricao', 10.2, true, 1);
+insert into produto(id, nome, descricao, preco, ativo, restaurante_id) values (4, 'Sal', 'descricao', 10.2, true, 1);
+insert into produto(id, nome, descricao, preco, ativo, restaurante_id) values (5, 'Óleo de soja', 'descricao', 10.2, true, 1);
+
 
 insert into permissao(nome, descricao) values ('ADMIN','ACESSO_TOTAL');
 insert into forma_pagamento(descricao) values ('DINHEIRO');
