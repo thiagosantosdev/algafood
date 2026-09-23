@@ -8,9 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +24,13 @@ import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import tools.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 
-@RequestMapping("/restaurantes")
+
+
+@RequestMapping(value = "/restaurantes")
 @RestController
 public class RestauranteController {
 	
@@ -39,11 +41,18 @@ public class RestauranteController {
 	private RestauranteRepository restauranteRepository;
 	
 	
-	@ResponseStatus(value = HttpStatus.CREATED)
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Restaurante> listar(){
+	@GetMapping(value = "/")
+	public List<Restaurante> listar() {
 		return restauranteRepository.findAll();
 	}
+	/*@GetMapping(value = "/listatodos")
+	@ResponseBody
+	public ResponseEntity<List<Usuario>> listaUsuario(){
+		
+		List<Usuario> usuarios = usuarioRepository.findAll();
+		
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+	}*/
 	
 	@GetMapping("/restaurantes/por-nome")
 	public List<Restaurante> restaurantePorNomes(
@@ -62,12 +71,21 @@ public class RestauranteController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
+	/*
+	 * public ResponseEntity<?> salvar(@RequestBody Cidade cidade) {
+		try {
+			cidade = cadastroCidadeService.salvar(cidade);
+			return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
+	}*/
 	
 	
-	
+	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+	public ResponseEntity<?> adicionar( @RequestBody @Valid Restaurante restaurante) {
 		try {
 			restaurante = cadastroRestauranteService.salvar(restaurante);
 			

@@ -21,6 +21,10 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Restaurante {
@@ -29,13 +33,18 @@ public class Restaurante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull(message = "O nome deve ser informado!")
+	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
+	@DecimalMin("1")
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
-	@JsonIgnore
+	//@JsonIgnore
+	@Valid
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
@@ -43,25 +52,27 @@ public class Restaurante {
 	@Embedded
 	private Endereco endereco;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurante_forma_pagamento",
 			joinColumns = @JoinColumn(name = "restaurante_id"),
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany
 	private List<Produto> produtos;
+	
 	
 	
 	public Long getId() {
@@ -76,6 +87,21 @@ public class Restaurante {
 	public Cozinha getCozinha() {
 		return cozinha;
 	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public LocalDateTime getDataCadastro() {
+		return dataCadastro;
+	}
+	public LocalDateTime getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+	public List<FormaPagamento> getFormasPagamento() {
+		return formasPagamento;
+	}
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -88,26 +114,8 @@ public class Restaurante {
 	public void setCozinha(Cozinha cozinha) {
 		this.cozinha = cozinha;
 	}
-	
-	public List<FormaPagamento> getFormasPagamento() {
-		return formasPagamento;
-	}
-	public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
-		this.formasPagamento = formasPagamento;
-	}
-	
-	public Endereco getEndereco() {
-		return endereco;
-	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-	
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
-	}
-	public LocalDateTime getDataAtualizacao() {
-		return dataAtualizacao;
 	}
 	public void setDataCadastro(LocalDateTime dataCadastro) {
 		this.dataCadastro = dataCadastro;
@@ -115,13 +123,14 @@ public class Restaurante {
 	public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
 		this.dataAtualizacao = dataAtualizacao;
 	}
-	
-	public List<Produto> getProdutos() {
-		return produtos;
+	public void setFormasPagamento(List<FormaPagamento> formasPagamento) {
+		this.formasPagamento = formasPagamento;
 	}
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

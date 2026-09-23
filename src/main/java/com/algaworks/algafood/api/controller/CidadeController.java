@@ -29,81 +29,74 @@ public class CidadeController {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
-	
+
 	@Autowired
 	private CadastroCidadeService cadastroCidadeService;
-	
+
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping
-	public ResponseEntity<?>  salvar(@RequestBody Cidade cidade) {
-	 try {
-		 cidade = cadastroCidadeService.salvar(cidade);
-		 return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
-	 }catch(EntidadeNaoEncontradaException e) {
+	public ResponseEntity<?> salvar(@RequestBody Cidade cidade) {
+		try {
+			cidade = cadastroCidadeService.salvar(cidade);
+			return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
+		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
-	 }
-		
-		
+		}
+
 	}
-	
-	
-	
+
 	@GetMapping
 	public List<Cidade> listar() {
-		
+
 		return cidadeRepository.findAll();
-		
+
 	}
-	
+
 	@GetMapping("/{cidadeId}")
-	public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId){
-		
+	public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
+
 		Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
-		
-		if(cidade.isPresent()) {
+
+		if (cidade.isPresent()) {
 			return ResponseEntity.ok(cidade.get());
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		
+
 	}
-	
+
 	@DeleteMapping("/{cidadeId}")
 	public ResponseEntity<Cidade> excluir(@PathVariable Long cidadeId) {
-		
+
 		try {
 			cadastroCidadeService.excluir(cidadeId);
 			return ResponseEntity.noContent().build();
-	
-		}catch(EntidadeNaoEncontradaException e) {
+
+		} catch (EntidadeNaoEncontradaException e) {
 			return ResponseEntity.notFound().build();
- 
-		}catch(EntidadeEmUsoException e) {
+
+		} catch (EntidadeEmUsoException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		
+
 	}
-	
+
 	@PutMapping("/{cidadeId}")
-	public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade){
+	public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
 		try {
-		Optional<Cidade> cidadeAtual = cidadeRepository.findById(cidadeId);
+			Optional<Cidade> cidadeAtual = cidadeRepository.findById(cidadeId);
 
-		if(cidadeAtual.isPresent()) {
-			BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-			Cidade cidadeSalva =  cidadeRepository.save(cidadeAtual.get());
-			return ResponseEntity.ok(cidadeSalva);
+			if (cidadeAtual.isPresent()) {
+				BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+				Cidade cidadeSalva = cidadeRepository.save(cidadeAtual.get());
+				return ResponseEntity.ok(cidadeSalva);
 
+			}
+			return ResponseEntity.notFound().build();
+		} catch (EntidadeNaoEncontradaException e) {
+
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-		return ResponseEntity.notFound().build();
-		}catch(EntidadeNaoEncontradaException e) {
-			
-			return ResponseEntity.badRequest()
-					.body(e.getMessage());
-		}
-		
-		}
-	
-	
+
 	}
-	
 
+}

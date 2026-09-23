@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -42,18 +43,29 @@ public class CozinhaController {
 	
 	
 	@GetMapping("/{cozinhaId}")
-	public Cozinha buscar(@PathVariable Long cozinhaId) {
-		return cozinhaRepository.findById(cozinhaId)
-				.orElseThrow(() -> new EntidadeNaoEncontradaException("aaaaaaa"));
-	/*	Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
+	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
+		//return cozinhaRepository.findById(cozinhaId)
+				//.orElseThrow(() -> new EntidadeNaoEncontradaException("aaaaaaa"));
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
 		
 		if(cozinha.isPresent()) {
 			return ResponseEntity.ok(cozinha.get());
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		//return ResponseEntity.notFound().build(); ATALHO LINHA ACIMA
-		*/
+	
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();		
 		}
+	
+	/*@GetMapping("/{cidadeId}")
+	public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
+
+		Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
+
+		if (cidade.isPresent()) {
+			return ResponseEntity.ok(cidade.get());
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+	}*/
 	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping
@@ -74,6 +86,8 @@ public class CozinhaController {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	
 	
 	/*
 	 * @DeleteMapping("/{cozinhaId}")
@@ -104,7 +118,7 @@ public class CozinhaController {
 	}
 	
 	
-	
+
 	
 	
 	
